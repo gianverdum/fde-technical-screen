@@ -4,20 +4,20 @@
 This is a Python package sorting system for Thoughtful's robotic automation factory. The core business logic implements a `sort()` function that classifies packages into STANDARD, SPECIAL, or REJECTED categories based on dimensions and mass.
 
 ## Development Environment Setup
-This project uses **uv** for dependency management. Always work within the virtual environment:
+This project uses **uv** for dependency management. Use `uv run` to execute commands within the virtual environment:
 
 ```bash
-# Activate the virtual environment
-source .venv/bin/activate
-
 # Install/sync dependencies
 uv sync
 
 # Run tests
-pytest
+uv run pytest
+
+# Run tests with verbose output
+uv run pytest -v
 
 # Run tests with coverage
-pytest --cov=src/fde
+uv run pytest --cov=src/fde
 ```
 
 ## Architecture & Key Files
@@ -43,9 +43,9 @@ Tests use AAA pattern (Arrange-Act-Assert) with descriptive docstrings:
 - `test_reject_when_heavy_and_bulky()` - Rejection criteria
 
 ## Development Workflow
-1. **Always activate venv first**: `source .venv/bin/activate`
+1. **Install/sync dependencies**: `uv sync`
 2. **Install new dependencies**: `uv add <package>` or `uv add --dev <package>`
-3. **Run tests**: `pytest` (simple) or `pytest -v` (verbose)
+3. **Run tests**: `uv run pytest` (simple) or `uv run pytest -v` (verbose)
 4. **Type checking**: Code uses type hints with `Union[int, float]` for numeric inputs
 
 ## Code Conventions
@@ -63,5 +63,5 @@ Tests use AAA pattern (Arrange-Act-Assert) with descriptive docstrings:
 ## Common Tasks
 - **Add new test**: Follow existing AAA pattern in `tests/test_core.py`
 - **Extend functionality**: Use placeholder files in `src/fde/` (models.py, utils.py, io.py)
-- **Debug failing tests**: Run `pytest -v` for detailed output
-- **Check test coverage**: Run `pytest --cov=src/fde`
+- **Debug failing tests**: Run `uv run pytest -v` for detailed output
+- **Check test coverage**: Run `uv run pytest --cov=src/fde`

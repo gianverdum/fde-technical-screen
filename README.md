@@ -52,18 +52,17 @@ The project includes a comprehensive test suite in `tests/test_core.py` covering
 ### Running Tests
 
 ```bash
-# Install dependencies and activate virtual environment
+# Install dependencies
 uv sync
-source .venv/bin/activate
 
 # Run tests
-pytest
+uv run pytest
 
 # Run tests with verbose output
-pytest -v
+uv run pytest -v
 
 # Run tests with coverage
-pytest --cov=src/fde
+uv run pytest --cov=src/fde
 ```
 
 ## 🛠️ Setup and Installation
@@ -82,9 +81,6 @@ cd fde
 # Install dependencies and create virtual environment using uv
 uv sync
 
-# Activate the virtual environment
-source .venv/bin/activate
-
 # Alternative: using pip (not recommended for this project)
 # pip install -e .
 # pip install pytest
@@ -93,9 +89,6 @@ source .venv/bin/activate
 ### Usage
 
 ```python
-# First, activate the virtual environment
-# source .venv/bin/activate
-
 from fde.core import sort
 
 # Example usage
