@@ -1,5 +1,11 @@
 """Core business logic for the FDE Technical Screen challenge."""
 
+import time
+from .metrics import default_metrics
+import logging
+
+logger = logging.getLogger(__name__)
+
 from typing import Union
 
 Number = Union[int, float]
@@ -17,15 +23,35 @@ def sort(width: Number, height: Number, length: Number, mass: Number) -> str:
     Returns:
         str: The category of the package.
     """
-    validate_package_data(width, height, length, mass)
-    is_heavy = mass >= 20
-    is_bulky = (width * height * length) >= 1_000_000 or (width >= 150 or height >= 150 or length >= 150)
+    start = time.perf_counter()
+    
+    try:
+        validate_package_data(width, height, length, mass)
+        is_heavy = mass >= 20
+        is_bulky = (width * height * length) >= 1_000_000 or (width >= 150 or height >= 150 or length >= 150)
 
-    if is_heavy and is_bulky:
-        return "REJECTED"
-    if is_bulky or is_heavy:
-        return "SPECIAL"
-    return "STANDARD"
+        if is_heavy and is_bulky:
+            category = "REJECTED"
+        elif is_bulky or is_heavy:
+            category = "SPECIAL"
+        else:
+            category = "STANDARD"
+
+        duration = time.perf_counter() - start
+
+        try:
+            default_metrics.observe(category, duration)
+        except Exception:
+            logger.exception("metrics_observe_failed")
+        
+        return category
+    
+    except Exception:
+        try:
+            default_metrics.record_error()
+        except Exception:
+            logger.exception("metrics_record_error_failed")
+        raise
 
 def validate_package_data(width: Number, height: Number, length: Number, mass: Number) -> None:
     """
