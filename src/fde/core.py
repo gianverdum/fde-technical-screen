@@ -1,45 +1,23 @@
 """Core business logic for the FDE Technical Screen challenge."""
 
 from typing import Union
+from .classifier import get_classification_engine
 
 Number = Union[int, float]
 
 def sort(width: Number, height: Number, length: Number, mass: Number) -> str:
     """
     Sort packages based on their dimensions and mass.
-
-    Args:
-        width (Number): Width of the package.
-        height (Number): Height of the package.
-        length (Number): Length of the package.
-        mass (Number): Mass of the package.
-
-    Returns:
-        str: The category of the package.
+    
+    Uses configurable rules internally while maintaining the same API.
     """
     validate_package_data(width, height, length, mass)
-    is_heavy = mass >= 20
-    is_bulky = (width * height * length) >= 1_000_000 or (width >= 150 or height >= 150 or length >= 150)
-
-    if is_heavy and is_bulky:
-        return "REJECTED"
-    if is_bulky or is_heavy:
-        return "SPECIAL"
-    return "STANDARD"
+    
+    engine = get_classification_engine()
+    return engine.classify(width, height, length, mass)
 
 def validate_package_data(width: Number, height: Number, length: Number, mass: Number) -> None:
-    """
-    Validate the package data.
-
-    Args:
-        width (Number): Width of the package.
-        height (Number): Height of the package.
-        length (Number): Length of the package.
-        mass (Number): Mass of the package.
-
-    Raises:
-        ValueError: If any dimension or mass is negative.
-    """
+    """Validate the package data."""
     if not all(isinstance(value, (int, float)) for value in [width, height, length, mass]):
         raise TypeError("All dimensions and mass must be numbers.")
     if not (width > 0 and height > 0 and length > 0 and mass > 0):

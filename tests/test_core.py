@@ -36,6 +36,16 @@ def test_special_bulky_by_mass():
     result = sort(10, 10, 10, 20)
     assert result == "SPECIAL"
 
+def test_fragile_low_density():
+    """Low density -> FRAGILE"""
+    # Volume less than 1M and dimensions < 150 to avoid bulky
+    # 120 * 50 * 50 = 300_000 cm³ (< 1_000_000)
+    # density = (5 / 300_000) * 1000 = 0.017 ≤ 5.0 → FRAGILE
+    # Not bulky (300k < 1M and 120 < 150)
+    # Not heavy (5 < 20)
+    result = sort(120, 50, 50, 5)
+    assert result == "FRAGILE"
+
 def test_reject_when_heavy_and_bulky():
     """
     Both heavy and bulky -> REJECTED
