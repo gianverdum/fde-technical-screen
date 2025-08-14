@@ -65,7 +65,7 @@ class SpecialBulkyRule(ClassificationRule):
         return "SPECIAL"
 
 class FragileRule(ClassificationRule):
-    """Rule: High density → FRAGILE"""
+    """Rule: Low density → FRAGILE"""
     
     def __init__(self, density_threshold: float = 5.0):
         self.density_threshold = density_threshold
