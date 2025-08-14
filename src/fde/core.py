@@ -17,6 +17,7 @@ def sort(width: Number, height: Number, length: Number, mass: Number) -> str:
     Returns:
         str: The category of the package.
     """
+    validate_package_data(width, height, length, mass)
     is_heavy = mass >= 20
     is_bulky = (width * height * length) >= 1_000_000 or (width >= 150 or height >= 150 or length >= 150)
 
@@ -25,3 +26,21 @@ def sort(width: Number, height: Number, length: Number, mass: Number) -> str:
     if is_bulky or is_heavy:
         return "SPECIAL"
     return "STANDARD"
+
+def validate_package_data(width: Number, height: Number, length: Number, mass: Number) -> None:
+    """
+    Validate the package data.
+
+    Args:
+        width (Number): Width of the package.
+        height (Number): Height of the package.
+        length (Number): Length of the package.
+        mass (Number): Mass of the package.
+
+    Raises:
+        ValueError: If any dimension or mass is negative.
+    """
+    if not all(isinstance(value, (int, float)) for value in [width, height, length, mass]):
+        raise TypeError("All dimensions and mass must be numbers.")
+    if not (width > 0 and height > 0 and length > 0 and mass > 0):
+        raise ValueError("All dimensions and mass must be positive.")

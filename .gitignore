@@ -5,7 +5,14 @@ build/
 dist/
 wheels/
 *.egg-info
-sandbox/
+# sandbox/
 
 # Virtual environments
 .venv
+
+# Testing and coverage
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/

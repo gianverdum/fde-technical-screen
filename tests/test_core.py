@@ -42,3 +42,57 @@ def test_reject_when_heavy_and_bulky():
     """
     result = sort(150, 1, 1, 25)
     assert result == "REJECTED"
+
+def test_throws_error_when_negative_dimension():
+    """
+    Negative dimension -> ValueError
+    """
+    try:
+        sort(-1, 10, 10, 10)
+    except ValueError as e:
+        assert str(e) == "All dimensions and mass must be positive."
+
+def test_throws_error_when_negative_mass():
+    """
+    Negative mass -> ValueError
+    """
+    try:
+        sort(10, 10, 10, -1)
+    except ValueError as e:
+        assert str(e) == "All dimensions and mass must be positive."
+
+def test_throws_error_when_zero_dimension():
+    """
+    Zero dimension -> ValueError
+    """
+    try:
+        sort(0, 10, 10, 10)
+    except ValueError as e:
+        assert str(e) == "All dimensions and mass must be positive."
+
+def test_throws_error_when_zero_mass():
+    """
+    Zero mass -> ValueError
+    """
+    try:
+        sort(10, 10, 10, 0)
+    except ValueError as e:
+        assert str(e) == "All dimensions and mass must be positive."
+
+def test_throws_error_when_non_numeric_dimension():
+    """
+    Non-numeric dimension -> TypeError
+    """
+    try:
+        sort("a", 10, 10, 10)
+    except TypeError as e:
+        assert str(e) == "All dimensions and mass must be numbers."
+
+def test_throws_error_when_non_numeric_mass():
+    """
+    Non-numeric mass -> TypeError
+    """
+    try:
+        sort(10, 10, 10, "b")
+    except TypeError as e:
+        assert str(e) == "All dimensions and mass must be numbers."
